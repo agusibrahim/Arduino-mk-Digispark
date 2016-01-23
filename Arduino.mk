@@ -1425,8 +1425,12 @@ error_on_caterina:
 # Use submake so we can guarantee the reset happens
 # before the upload, even with make -j
 upload:		$(TARGET_HEX) verify_size
+ifeq ($(ISP_PROG), micronucleus)
+		micronucleus --run $(TARGET_HEX)
+else
 		$(MAKE) reset
 		$(MAKE) do_upload
+endif
 
 raw_upload:	$(TARGET_HEX) verify_size
 		$(MAKE) error_on_caterina
